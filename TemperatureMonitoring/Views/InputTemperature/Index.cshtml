@@ -1,0 +1,291 @@
+﻿@model IEnumerable<TemperatureMonitoring.Models.CInputTemperature>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>GHI NHẬN THÔNG TIN NHIỆT ĐỘ</h2>
+
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+    @*<a href="#finish">Lưu thông tin</a>*@
+
+    <div>
+        <label>Người gửi:  @ViewBag.UserAction</label>
+        <br />
+        <label>Thời gian gửi: </label>
+        <script>
+
+            var today = new Date();
+
+            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+
+            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+            var dateTime = date + ' ' + time;
+            document.write(dateTime);
+        </script>
+        <br />
+        <label id="lblThongBao">***Vui lòng báo cho quản lý kho nếu có điều bất thường nào!*** </label>
+        @*@Html.Label("Người gửi: ")
+            @Html.Label("Thời gian: ")
+            @Html.Label("Vui lòng báo cho quản lý kho nếu có điều bất thường nào!")*@
+    </div>
+</p>
+<table class="table">
+    <tr>
+        <th style="display:none">
+            @Html.DisplayNameFor(model => model.Warehouse)
+        </th>
+        <th style="display:none">
+            @Html.DisplayNameFor(model => model.DeviceID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeviceName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeftDevice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RightDevice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remark)
+        </th>
+        <th style="display:none">
+            @Html.DisplayNameFor(model => model.TimeInput)
+        </th>
+        <th style="display:none">
+            @Html.DisplayNameFor(model => model.UserInput)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td style="display:none">
+                @Html.DisplayFor(modelItem => item.Warehouse)
+            </td>
+            <td style="display:none">
+                @Html.DisplayFor(modelItem => item.DeviceID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeviceName)
+            </td>
+            <td>
+                @Html.EditorFor(modelItem => item.LeftDevice, new { htmlAttributes = new { @class = "form-control", @id = "left_" + item.Warehouse + item.DeviceID } })
+            </td>
+            <td>
+                @Html.EditorFor(modelItem => item.RightDevice, new { htmlAttributes = new { @class = "form-control", @id = "right_" + item.Warehouse + item.DeviceID } })
+            </td>
+            <td>
+                @Html.EditorFor(modelItem => item.Remark, new { htmlAttributes = new { @class = "form-control", @id = "remark_" + item.Warehouse + item.DeviceID } })
+            </td>
+            <td style="display:none">
+                @Html.DisplayFor(modelItem => item.TimeInput)
+            </td>
+            <td style="display:none">
+                @Html.DisplayFor(modelItem => item.UserInput)
+            </td>
+            @*<td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    <a class="edit" href="#">Sửa</a>
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>*@
+        </tr>
+    }
+
+</table>
+
+<input type="submit"
+       value="GỬI THÔNG TIN"
+       class="btn btn-default"
+       id="finish" />
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+    $('.edit').click(function () {
+        var row = $(this).closest('tr');
+        row.toggleClass('isediting'); // add a style to highlight the row
+        var isediting = row.hasClass('isediting');
+        $(this).parent('td').siblings('td').prop('contenteditable', isediting);
+        if (isediting) {
+            $(this).text('Lưu');
+        } else {
+            $(this).text('Sửa');
+        }
+    })
+
+</script>
+<script>
+    function myTrim(x) {
+        return x.replace(/^\s+|\s+$/gm, '');
+    }
+    $(document).ready(function () {
+        $('#finish').click(function (e) {
+            // prevent the default event behaviour
+            e.preventDefault();
+            var strlableInformation = "";
+            if ($('#finish').val() == "GỬI THÔNG TIN") {
+                var validateinfor = "";
+                $('.table tr').each(function (row, tr) {
+                    //TableData = TableData + $(tr).find('td:eq(0)').text() + "-" + $(tr).find('td:eq(1)').text() + ",";
+                    var row = $(this);
+
+
+                    if ($(tr).find('td:eq(0)').text().trim() != "") {
+                        document.getElementById($(tr).find('input:eq(0)').attr('id')).readOnly = true;
+                        document.getElementById($(tr).find('input:eq(1)').attr('id')).readOnly = true;
+                        document.getElementById($(tr).find('input:eq(2)').attr('id')).readOnly = true;
+                        if (isFinite($(tr).find('input:eq(0)').val().trim())) {//in
+                            if ($(tr).find('input:eq(0)').val().trim() >0) {
+                                document.getElementById($(tr).find('input:eq(0)').attr('id')).style.color = "red";
+
+                                strlableInformation = strlableInformation + $(tr).find('td:eq(2)').text().trim() + " IN \n";
+                            }
+                            else {
+                                document.getElementById($(tr).find('input:eq(0)').attr('id')).style.color = "black";
+                            }
+
+                        }
+                        else {
+                            document.getElementById($(tr).find('input:eq(0)').attr('id')).style.color = "red";
+                            strlableInformation = strlableInformation + $(tr).find('td:eq(2)').text().trim() + " IN \n";
+                        }
+                        //out
+                        if (isFinite($(tr).find('input:eq(1)').val().trim())) { //out
+                            if ($(tr).find('input:eq(1)').val().trim() > 8) {
+                                document.getElementById($(tr).find('input:eq(1)').attr('id')).style.color = "red";
+                                strlableInformation = strlableInformation + $(tr).find('td:eq(2)').text().trim() + " OUT \n";
+                            }
+                            else {
+                                document.getElementById($(tr).find('input:eq(1)').attr('id')).style.color = "black";
+                            }
+
+                        }
+                        else {
+                            document.getElementById($(tr).find('input:eq(1)').attr('id')).style.color = "red";
+                            strlableInformation = strlableInformation + $(tr).find('td:eq(2)').text().trim() + " OUT \n";
+                        }
+                        var temIN = "";
+                        temIN = $(tr).find('input:eq(0)').val();
+                        console.log("rrr:" + temIN)
+                        var temOUT = "";
+                        temOUT = $(tr).find('input:eq(1)').val();
+                        if (myTrim(temIN) == "" || myTrim(temOUT) == "") {
+                            //alert("Bạn chưa nhập nhiệt độ IN OUT");
+                            validateinfor += "Bạn chưa nhập nhiệt độ IN OUT của thiết bị: " + $(tr).find('td:eq(2)').text().trim() + "\n";
+                            //document.getElementById($(tr).find('input:eq(0)').attr('id')).readOnly = false;
+                            //document.getElementById($(tr).find('input:eq(1)').attr('id')).readOnly = false;
+                            //document.getElementById($(tr).find('input:eq(2)').attr('id')).readOnly = false;
+                        }
+                    }
+
+                });
+                if (validateinfor.length > 0) {
+                    $('.table tr').each(function (row, tr) {
+                        if ($(tr).find('td:eq(0)').text().trim() != "") {
+                            document.getElementById($(tr).find('input:eq(0)').attr('id')).readOnly = false;
+                            document.getElementById($(tr).find('input:eq(1)').attr('id')).readOnly = false;
+                            document.getElementById($(tr).find('input:eq(2)').attr('id')).readOnly = false;
+                        }
+                    });
+                }
+
+                if (strlableInformation.length > 0) {
+                    document.getElementById('lblThongBao').innerHTML = '*** Vui lòng thông báo cho quản lý nhiệt độ ở thiết bị ' + strlableInformation + ' đang bất thường ***';
+                    document.getElementById('lblThongBao').style.color = "red";
+                }
+                else {
+                    document.getElementById('lblThongBao').innerHTML = '*** Vui lòng báo cho quản lý kho nếu có điều bất thường nào! ***';
+                    document.getElementById('lblThongBao').style.color = "blue";
+                }
+
+                if (validateinfor.length>0) {
+                    alert(validateinfor)
+                }
+                else {
+                    alert("Vui lòng xác nhận thông tin đã ghi nhận")
+                    $('#finish').val("XÁC NHẬN THÔNG TIN");
+                }
+
+            }
+            else {
+                $('#finish').val("GỬI THÔNG TIN");
+
+                var TableData = new Array();
+                var errorInput = "";
+                $('.table tr').each(function (row, tr) {
+                    //TableData = TableData + $(tr).find('td:eq(0)').text() + "-" + $(tr).find('td:eq(1)').text() + ",";
+                    var row = $(this);
+                    var temperature = {};
+                    if ($(tr).find('td:eq(0)').text().trim() != "") {
+                        temperature.Warehouse = $(tr).find('td:eq(0)').text().trim();
+                        temperature.DeviceID = $(tr).find('td:eq(1)').text().trim();
+                        temperature.DeviceName = $(tr).find('td:eq(2)').text().trim();
+                        temperature.LeftDevice = $(tr).find('input:eq(0)').val().trim();
+                        temperature.RightDevice = $(tr).find('input:eq(1)').val().trim();
+                        temperature.Remark = $(tr).find('input:eq(2)').val().trim();
+                        if (temperature.LeftDevice == "" || temperature.RightDevice == "") {
+                            //alert("Bạn chưa nhập nhiệt độ IN OUT");
+                            errorInput += "Bạn chưa nhập nhiệt độ IN OUT của thiết bị: " + temperature.DeviceName + "\n";
+                            document.getElementById($(tr).find('input:eq(0)').attr('id')).readOnly = false;
+                            document.getElementById($(tr).find('input:eq(1)').attr('id')).readOnly = false;
+                            document.getElementById($(tr).find('input:eq(2)').attr('id')).readOnly = false;
+                        }
+                        TableData.push(temperature);
+                    }
+                });
+                if (errorInput.length > 0) {
+                    alert(errorInput);
+                    return;
+                }
+                $('.table tr').each(function (row, tr) {
+                    //TableData = TableData + $(tr).find('td:eq(0)').text() + "-" + $(tr).find('td:eq(1)').text() + ",";
+                    var row = $(this);
+
+                    if ($(tr).find('td:eq(0)').text().trim() != "") {
+
+                        document.getElementById($(tr).find('input:eq(0)').attr('id')).readOnly = false;
+                        document.getElementById($(tr).find('input:eq(1)').attr('id')).readOnly = false;
+                        document.getElementById($(tr).find('input:eq(2)').attr('id')).readOnly = false;
+
+                    }
+                });
+                var postData = { values: TableData };
+
+                $.ajax({
+                    url: "/InputTemperature/SaveData",
+                    type: "POST",
+                    data: JSON.stringify(postData),// TableData,
+                    dataType: "json",
+                    //traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+
+                        // perform your save call here
+
+                        if (data.Status == "Success") {
+                            alert(data.Error);
+                            var fromdate = data.TimeInput;
+                            var todate = data.TimeInput;
+                            window.location = '@Url.Action("Report", "InputTemperature")?FromDate=' + fromdate + '&ToDate=' + todate;
+                        } else {
+
+                            alert(data.Error);
+                        }
+                    },
+                    error: function () {
+                        //alert("An error has occured!!!");
+                    }
+                });
+
+            }
+
+            return;
+
+        });
+    });
+</script>     

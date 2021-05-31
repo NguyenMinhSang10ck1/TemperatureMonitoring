@@ -1,0 +1,114 @@
+﻿@model IEnumerable<TemperatureMonitoring.Models.CInputTemperature>
+
+@{
+    ViewBag.Title = "Report";
+}
+
+<h2>Báo cáo</h2>
+<div>
+    <label for="FromDate">Từ ngày</label>
+    <input id="FromDate" name="FromDate" type="date" value="@Convert.ToDateTime(@ViewBag.FromDate).ToString("yyyy-MM-dd")" />
+    <label for="ToDate">Đến ngày</label>
+    <input id="ToDate" name="ToDate" type="date" value="@Convert.ToDateTime(@ViewBag.ToDate).ToString("yyyy-MM-dd")" />
+    <input type="submit"
+           value="View"
+           class="btn btn-default"
+           id="link" />
+    @*<a target="_blank" href="@Url.Action("Report","InputTemperature", new { FromDate = "FromDate", ToDate = "ToDate"})"></a>*@
+</div>
+<p>
+   
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeInput)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Warehouse)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeviceID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeviceName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeftDevice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RightDevice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remark)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserInput)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.TimeInput)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Warehouse)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DeviceID)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DeviceName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.LeftDevice)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.RightDevice)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Remark)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.UserInput)
+    </td>
+    @*<td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>*@
+</tr>
+    }
+
+</table>
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/cssjqryUi")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('input[type=datetime]').datepicker({
+                dateFormat: "yy/mm/dd",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0"
+            });
+
+        });
+    </script>
+    <script>
+        $('#link').click(function () {
+            var fromdate = $('#FromDate').val();
+            var todate = $('#ToDate').val() +" 23:59:59";
+            console.log(todate);
+            window.location = '@Url.Action("Report", "InputTemperature")?FromDate=' + fromdate + '&ToDate=' + todate;
+            })
+    </script>
+    
+
+}

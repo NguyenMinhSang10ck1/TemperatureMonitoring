@@ -1,0 +1,57 @@
+﻿@model IEnumerable<TemperatureMonitoring.Models.CDevice>
+
+@{
+    ViewBag.Title = "List Device";
+}
+
+<h2>Danh sách thiết bị kiểm tra nhiệt độ</h2>
+
+<p>
+    @Html.ActionLink("Thêm mới", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Warehouse)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeviceID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeviceName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Warehouse)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeviceID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeviceName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.ActionLink("Sửa", "Edit", new { Warehouse = item.Warehouse, DeviceID = item.DeviceID, DeviceName = item.DeviceName, Status = item.Status }) |
+            @*@Html.ActionLink("Details", "Details", new { Warehouse = item.Warehouse, DeviceID = item.DeviceID })|*@
+            @*@Html.ActionLink("Delete", "Delete", new { Warehouse = item.Warehouse, DeviceID = item.DeviceID, DeviceName = item.DeviceName }) |*@
+            @Html.ActionLink(
+            "Xóa",
+            "DeleteDevice",
+            "Device",
+             new { warehouse = item.Warehouse, DeviceID = item.DeviceID, DeviceName = item.DeviceName, Status = "I" },
+             new { onclick = "return confirm('Bạn có muốn xóa thiết bị này hay không?')" })
+        </td>
+    </tr>
+}
+
+</table>
