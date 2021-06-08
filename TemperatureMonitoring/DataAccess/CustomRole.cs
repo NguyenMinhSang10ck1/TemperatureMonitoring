@@ -8,7 +8,34 @@ namespace TemperatureMonitoring.DataAccess
 {
     public class CustomRole : RoleProvider
     {
-        public override string ApplicationName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+//        public override string ApplicationName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+public override string ApplicationName
+        {
+            set
+            {
+                throw new NotImplementedException();
+            }
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        //public override string ApplicationName
+        //{
+        //    get
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
+
+        //public override string ApplicationName
+        //{
+        //    get
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
 
         public override bool IsUserInRole(string username, string roleName)
         {

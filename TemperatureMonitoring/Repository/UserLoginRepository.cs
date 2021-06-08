@@ -31,6 +31,11 @@ namespace TemperatureMonitoring.Repository
             return SqlMapper.Query<UserRole>(con, sql, commandType: System.Data.CommandType.Text).ToList();
 
         }
+        public List<UserSendEmail> GetUserSendEmail(string _userAction)
+        {
+            string sql = $@"exec pr_GetUserSendEmail N'{_userAction}'";
+            return SqlMapper.Query<UserSendEmail>(con, sql, commandType: System.Data.CommandType.Text).ToList();
+        }
 
     }
 }

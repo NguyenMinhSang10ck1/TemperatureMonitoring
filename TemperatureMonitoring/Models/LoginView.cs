@@ -47,4 +47,9 @@ namespace TemperatureMonitoring.Models
         public string RoleName { get; set; }
         public string Warehouse { get; set; }
     }
+    public class UserSendEmail
+    {
+        public string Type { get; set; }
+        public string Email { get; set; }
+    }
 }

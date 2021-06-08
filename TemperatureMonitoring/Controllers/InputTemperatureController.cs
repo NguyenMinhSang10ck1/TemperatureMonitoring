@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using TemperatureMonitoring.CustomAuthorize;
 using TemperatureMonitoring.Models;
+using TemperatureMonitoring.Repository;
 using TemperatureMonitoring.Repository.Device;
 using TemperatureMonitoring.Repository.InputTemperature;
 
@@ -111,7 +112,18 @@ namespace TemperatureMonitoring.Controllers
             ResultData _resultData = new ResultData();
             if (_result.Trim() == "")
             {
-                SendMail.SendmailTemp(new string [] { "minhsang.nguyen@vn.yusen-logistics.com" }, "test send mail", GetStringBodySendmail(values), "");
+                //string[] emailto = new string[]{};
+                UserLoginRepository _userlogin = new UserLoginRepository();
+                List<UserSendEmail> _usersendmails= _userlogin.GetUserSendEmail(User.Identity.Name);
+                string[] emailto = new string[_usersendmails.Count];
+                int iuser = 0;
+                foreach (var _userSendmail in _usersendmails)
+                {
+                    emailto[iuser] = _userSendmail.Email;
+                    iuser=iuser+1;
+                }
+                //new string [] { "minhsang.nguyen@vn.yusen-logistics.com" }
+                SendMail.SendmailTemp(emailto, "test send mail", GetStringBodySendmail(values), "");
                 _resultData.Status = "Success";
                 _resultData.TimeInput = _TimeInput;
                 _resultData.Error = "Gửi thông tin thành công. Xin cảm ơn";

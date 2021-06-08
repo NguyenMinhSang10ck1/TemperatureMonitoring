@@ -12,27 +12,128 @@ namespace TemperatureMonitoring.DataAccess
 {
     public class CustomMembership : MembershipProvider
     {
-        public override bool EnablePasswordRetrieval => throw new NotImplementedException();
+        public override string ApplicationName
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
 
-        public override bool EnablePasswordReset => throw new NotImplementedException();
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        public override bool RequiresQuestionAndAnswer => throw new NotImplementedException();
+        public override bool EnablePasswordReset
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        public override string ApplicationName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override bool EnablePasswordRetrieval
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        public override int MaxInvalidPasswordAttempts => throw new NotImplementedException();
+        public override int MaxInvalidPasswordAttempts
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        public override int PasswordAttemptWindow => throw new NotImplementedException();
+        public override int MinRequiredNonAlphanumericCharacters
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        public override bool RequiresUniqueEmail => throw new NotImplementedException();
+        public override int MinRequiredPasswordLength
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        public override MembershipPasswordFormat PasswordFormat => throw new NotImplementedException();
+        public override int PasswordAttemptWindow
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        public override int MinRequiredPasswordLength => throw new NotImplementedException();
+        public override MembershipPasswordFormat PasswordFormat
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        public override int MinRequiredNonAlphanumericCharacters => throw new NotImplementedException();
+        public override string PasswordStrengthRegularExpression
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        public override string PasswordStrengthRegularExpression => throw new NotImplementedException();
+        public override bool RequiresQuestionAndAnswer
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public override bool RequiresUniqueEmail
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        //public override bool EnablePasswordRetrieval => throw new NotImplementedException();
+
+        //public override bool EnablePasswordReset => throw new NotImplementedException();
+
+        //public override bool RequiresQuestionAndAnswer => throw new NotImplementedException();
+
+        //public override string ApplicationName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        //public override int MaxInvalidPasswordAttempts => throw new NotImplementedException();
+
+        //public override int PasswordAttemptWindow => throw new NotImplementedException();
+
+        //public override bool RequiresUniqueEmail => throw new NotImplementedException();
+
+        //public override MembershipPasswordFormat PasswordFormat => throw new NotImplementedException();
+
+        //public override int MinRequiredPasswordLength => throw new NotImplementedException();
+
+        //public override int MinRequiredNonAlphanumericCharacters => throw new NotImplementedException();
+
+        //public override string PasswordStrengthRegularExpression => throw public override string ApplicationName
+        //{
+        //    set
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
+
+
 
         public override bool ChangePassword(string username, string oldPassword, string newPassword)
         {
